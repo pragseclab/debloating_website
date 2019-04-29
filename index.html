@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>< is > : Quantifying the Security Benefits of Debloating Web Applications</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="vendor/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/highlightjs/styles/default.css">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">< is ></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#introduction">Introduction
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#architecture">Architecture</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#sourcecode">Source Code</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#FAQ">FAQ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1 class="mt-5 logo">< is ></h1>
+        <p class="lead">Quantifying the Security Benefits of Debloating Web Applications</p>
+      </div>
+    </div>
+
+    <!-- Introduction -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <hr />
+      </div>
+      <div class="col-lg-12">
+        <a class="anchor" name="introduction"></a>
+        <h4 class="mt-1"><i class="fas fa-info"></i> Introduction</h1>
+        <p>The main idea of software debloating is to reduce software's attack surface by removing pieces of code that are not required by users. In this study, we analyze four popular PHP applications (phpMyAdmin, MediaWiki, Magento and WordPress) and show that a reduction of upto 71% in Logical Lines of Code, upto 60% in historic CVEs and upto 100% in Object Injection Gadgets is possible. Essentially, by removing unused functionality and libraries from the application we can significantly reduce the attack surface.</p>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <hr />
+      </div>
+      <div class="col-lg-12">
+        <a class="anchor" name="architecture"></a>
+        <h4 class="mt-1"><i class="fas fa-layer-group"></i> Architecture</h1>
+        <p>
+          This system is comprised of three docker images:<br />
+          <ul>
+            <li>
+              <b>"web"</b> container hosts the web applications. It runs apache with PHP 5.6 (To support older version of applications for our study) and uses XDebug to record code coverage information. Web container is accessible at http://localhost:8085 by default.
+            </li>
+            <li>
+              <b>"db"</b> includes the main database (code_coverage) with CVE mappings and coverage information along with database files required to run desired web applications.
+            </li>
+            <li>
+              <b>"admin"</b> container hosts the administation panel and debloating logic. Adding new software, mapping new CVEs and viewing which vulnerable lines within the application were triggered during the usage of the application are possible. Moreover, you can remove unused files and functions using this panel after executing desired functionality of the application and recording its code coverage. Web and Admin map to the same volume and access the same web applications. Admin panel is accessible at http://localhost:8086/admin.
+            </li>
+          </ul>
+        </p>
+      </div>
+    </div>
+
+    <!-- Source Code -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <hr />
+      </div>
+      <div class="col-lg-12">
+        <a class="anchor" name="sourcecode"></a>
+        <h4 class="mt-1"><i class="fas fa-code"></i> Source Code</h1>
+          <p><b>Pre-configured applications: </b>Four pre-configured docker images that host versions of web applications used in our study along with File and Function level debloated versions are accessible below:</p>
+          <ul class="dashed">
+            <li>
+              phpMyAdmin Docker images: <a target="_blank" href="https://drive.google.com/open?id=13FRRJ2JyCISaFPg_AKnVGMHSW1ANuVIW"><i class="fas fa-download pad-l-5"></i> Download</a> (includes phpMyAdmin 4.0.0, 4.4.0, 4.6.0, 4.7.0)
+            </li>
+            <li>
+              MediaWiki Docker images: <a target="_blank" href="https://drive.google.com/open?id=1wTu7sYQzOXxztVmMPpx9y-oSsUgy2YrK"><i class="fas fa-download pad-l-5"></i> Download</a> (includes MediaWiki 1.19.1, 1.21.1, 1.23.0, 1.24.0, 1.28.0)
+            </li>
+            <li>
+              Magento Docker images: <a target="_blank" href="https://drive.google.com/open?id=1ianawSu_liqj61zwkrO5W1VPm_ZeOQ3q"><i class="fas fa-download pad-l-5"></i> Download</a> (includes Magento 1.9.0, 2.0.5)
+            </li>
+            <li>
+              WordPress Docker images: <a target="_blank" href="https://drive.google.com/open?id=1uabcZ6ImodRhl0iJDIp6CSteBtAZUFVr"><i class="fas fa-download pad-l-5"></i> Download</a> (includes WordPress 3.9, 4.0, 4.2.3, 4.6, 4.7, 4.7.1)
+            </li>
+          </ul>
+          <p>Current web application configuration expects each web application to reside in the "web" directory itself. To test file and function level debloated variants, simply move their directories up from file_debloating or function_debloating directories to web.
+          <br /><i class="fas fa-link"></i> The source code is hosted on Github at <a target="_blank" href="https://github.com/silverfoxy/PHPDebloating">https://github.com/silverfoxy/PHPDebloating</a>.
+          </p>
+          <p><b>Running the container: </b>In order to build and run docker containers, after downloading your desired template, run
+            <pre><code class="bash">docker-compose up</code></pre>
+            in root directory of the project and access the applications at http://localhost:8085 and reports at http://localhost:8086/admin.</p>
+          <p><b>Debloating a new web application: </b> To add a new web application, follow these steps:
+            <ol>
+              <li>
+                Move your web application files to "web" directory and make sure Dockerfiles/web/Dockerfile installs the required dependencies and prepares the web server.
+              </li>
+              <li>
+                By placing the database backup sql file under Dockerfiles/db/entrypoint/ the database will be restored upon building the image
+              </li>
+              <li>
+                Under administration panel, add your web application directory to the database. Update destructors and exit calls to comply to our structure under Debloating menu by adding your web application files to the database.
+              </li>
+              <li>
+                Generate usage traffic that represents how users interact with the application to record code coverage.
+              </li>
+              <li>
+                Under administration panel in Debloating page, choose your desired debloating granularity (File or Function level). Next, you will see a report on which files/functions were removed.
+              </li>
+            </ol>
+          </p>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <hr />
+      </div>
+      <div class="col-lg-12">
+        <a class="anchor" name="about"></a>
+        <h4 class="mt-1"><i class="fas fa-users"></i> About</h1>
+        <p>We are a team of security researchers at PragSec Lab, Stony Brook University (<a target="_blank" href="https://securitee.org">https://securitee.org</a>).</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <hr />
+      </div>
+      <div class="col-lg-12">
+        <a class="anchor" name="FAQ"></a>
+        <h4 class="mt-1"><i class="fas fa-question"></i> FAQ</h1>
+        <p>Quantifying the Security Benefits of Debloating Web Applications</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/highlightjs/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+
+</html>
